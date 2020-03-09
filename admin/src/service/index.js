@@ -1,0 +1,15 @@
+import axios from 'axios'
+// 环境的切换
+// if (process.env.NODE_ENV == 'development') {
+//   axios.defaults.baseURL = 'http://localhost:3111/admin/api'
+// } else if (process.env.NODE_ENV == 'test') {
+//   axios.defaults.baseURL = 'http://localhost:3111/admin/testapi'
+// } else if (process.env.NODE_ENV == 'production') {
+//   axios.defaults.baseURL = 'http://localhost:3111/admin/api'
+// }
+const http = axios.create({
+  baseURL: 'http://localhost:5222/admin/api',
+  timeout: 10000
+})
+axios.defaults.withCredentials = true
+export default http
