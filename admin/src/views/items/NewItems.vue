@@ -7,11 +7,6 @@
       label-position="right"
       label-width="80px"
     >
-      <!-- <el-form-item label="上级分类">
-        <el-select v-model="form.parent" placeholder="请选择上级分类">
-          <el-option v-for="item in options" :key="item._id" :label="item.name" :value="item._id"></el-option>
-        </el-select>
-      </el-form-item>-->
       <el-form-item label="物品名称">
         <el-input
           v-model="form.name"

@@ -131,4 +131,14 @@ db.emp.find({}, { name: 1, _id: 0 }) // 只包含name, 不包含_id
       mongoose.connection.once('close', () => {})
       ```
 
-### todo: https://www.bilibili.com/video/av51931842?p=10
+### 查询中的填充(populate)，类似于关系型数据库中的关联(join)查询，
+
+1. 在需要填充的 schema 中添加 ref: '(需要填充的 SchemaName)',在查询中使用 query.populate({path,select...})，path 为需要填充的字段
+
+### 通用 CRUD 接口改造
+
+1. 动态获取前端传过来的参数名称，根据这个参数找到对应的 Modal，在中间件中加到 req 中
+
+### 上传 图片 使用 `multer` 处理
+
+### todo: https://www.bilibili.com/video/av51931842?p=14

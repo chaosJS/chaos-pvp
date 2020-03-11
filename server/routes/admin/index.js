@@ -1,7 +1,7 @@
 module.exports = app => {
   const express = require('express')
   const router = express.Router({
-    // 导入父级参数到子级配置 所以在子路由黎明可以获取到:resource参数
+    // 导入父级参数到子级配置 所以在子路由里面可以获取到:resource参数
     mergeParams: true
   })
   // new 分类
@@ -56,6 +56,7 @@ module.exports = app => {
     res.send(catInfo)
   })
   // app.use('/admin/api', router)
+  // 在此处进行通用改造，添加中间件
   app.use(
     '/admin/api/rest/:resource',
     async (req, res, next) => {

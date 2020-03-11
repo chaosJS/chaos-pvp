@@ -11,6 +11,7 @@ app.use(
 require('./routes/admin')(app)
 // 操作数据库
 require('./plugins/db')(app)
+// 托管静态文件
 app.use('/uploads', express.static(__dirname + '/uploads'))
 app.listen(5222, () => {
   console.log('app run on port 5222: ', 'http://localhost:5222')
