@@ -141,4 +141,10 @@ db.emp.find({}, { name: 1, _id: 0 }) // 只包含name, 不包含_id
 
 ### 上传 图片 使用 `multer` 处理
 
-### todo: https://www.bilibili.com/video/av51931842?p=14
+### 英雄，技能添加完成
+
+### 文章管理，富文本编辑器（quill），富文本编辑器中图片上传
+
+### 广告，广告位管理
+
+### todo: https://www.bilibili.com/video/av51931842?p=22 管理员账号管理，登录接口
