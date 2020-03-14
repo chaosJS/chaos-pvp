@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ id ? '编辑' : '新建' }}广告</h1>
+    <h1>{{ id ? '编辑' : '新建' }}广告位</h1>
     <el-form
       :model="form"
       class="demo-form-inline"

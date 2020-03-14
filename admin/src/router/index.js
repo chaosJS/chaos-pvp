@@ -22,13 +22,13 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'about',
+    path: '/login',
+    name: 'login',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue')
+      import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   {
     path: '/admin',
@@ -124,6 +124,23 @@ const routes = [
         path: '/admin/ads/list',
         name: 'ads-list',
         component: () => import('../views/ads/AdsList.vue')
+      },
+      // 用户管理
+      {
+        path: '/admin/admin_users/create',
+        name: 'new-users',
+        component: () => import('../views/admin-users/NewAdminUsers.vue')
+      },
+      {
+        path: '/admin/admin_users/edit/:id',
+        name: 'edit-users',
+        component: () => import('../views/admin-users/NewAdminUsers.vue'),
+        props: true
+      },
+      {
+        path: '/admin/admin_users/list',
+        name: 'users-list',
+        component: () => import('../views/admin-users/AdminUserList.vue')
       }
     ]
   }
