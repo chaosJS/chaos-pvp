@@ -29,7 +29,10 @@ export default {
     }
   },
   methods: {
-    handleLogin() {}
+    async handleLogin() {
+      const res = await this.$http.post('/login', this.form)
+      debugger
+    }
   }
 }
 </script>

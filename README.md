@@ -147,4 +147,6 @@ db.emp.find({}, { name: 1, _id: 0 }) // 只包含name, 不包含_id
 
 ### 广告，广告位管理
 
+### 用户登录接口实现中，axios全局捕获错误
+
 ### todo: https://www.bilibili.com/video/av51931842?p=25 用户管理页面完成，登录接口进行中。。。

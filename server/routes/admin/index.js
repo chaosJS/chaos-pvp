@@ -106,4 +106,18 @@ module.exports = app => {
     const specDoc = await specModel.findByIdAndDelete(req.params.id, req.body)
     res.send(specDoc)
   })
+
+  // 登录接口
+  app.post('/admin/api/login', async (req, res) => {
+    const { userName, password } = req.body
+    // 根据用户名找用户
+    const AdminUser = require('../../modules/AdminUser')
+    const user = await AdminUser.findOne({ userName })
+    !user &&
+      res.status(422).send({
+        message: '用户不存在'
+      })
+    // 校验密码
+    // 返回token
+  })
 }
