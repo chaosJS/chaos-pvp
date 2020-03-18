@@ -31,7 +31,13 @@ export default {
   methods: {
     async handleLogin() {
       const res = await this.$http.post('/login', this.form)
-      debugger
+      const { token, user_name } = res.data
+      localStorage.token = token
+      this.$message({
+        type: 'success',
+        message: `${user_name}，欢迎登录`
+      })
+      this.$router.push('/admin')
     }
   }
 }

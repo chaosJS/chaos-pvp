@@ -12,6 +12,16 @@ const http = axios.create({
   baseURL: 'http://localhost:5222/admin/api',
   timeout: 10000
 })
+http.interceptors.request.use(
+  config => {
+    // 加token
+    config.headers.Authorization = 'Bearer ' + localStorage.token
+    return config
+  },
+  err => {
+    return Promise.reject(err)
+  }
+)
 http.interceptors.response.use(
   res => {
     return res

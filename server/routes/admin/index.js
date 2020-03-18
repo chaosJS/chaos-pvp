@@ -21,28 +21,39 @@ module.exports = app => {
     res.send(catDoc)
   })
   // 分类列表
-  router.get('/', async (req, res) => {
-    let queryOptions = {}
-    if (req.Model.modelName === 'Category') {
-      // queryOptions.populate = 'parent'
+  router.get(
+    '/',
+    async (req, res, next) => {
+      // 后端获取的请求头都是小写对应
+      const {
+        headers: { authorization }
+      } = req
+      console.log('Authorization::', authorization)
+      await next()
+    },
+    async (req, res) => {
+      let queryOptions = {}
+      if (req.Model.modelName === 'Category') {
+        // queryOptions.populate = 'parent'
 
-      // 比较以下二者返回数据的不同⬇️⬇️
-      queryOptions.populate = { path: 'parent', select: 'name' }
-      // queryOptions.populate = { path: 'parent' }
+        // 比较以下二者返回数据的不同⬇️⬇️
+        queryOptions.populate = { path: 'parent', select: 'name' }
+        // queryOptions.populate = { path: 'parent' }
+      }
+      // if (req.Model.modelName === 'Article') {
+      //   queryOptions.populate = { path: 'categories', select: 'name' }
+      // }
+      const catList = await req.Model.find()
+        .setOptions(queryOptions)
+        // parent字段ref了catModel，所以在填充时 用catModel替换原来的ObjectId
+        // 填充 parent 字段 限定只返回name
+        // .populate('parent', { name: 1 })
+        .limit(10)
+      console.log()
+
+      res.send(catList)
     }
-    // if (req.Model.modelName === 'Article') {
-    //   queryOptions.populate = { path: 'categories', select: 'name' }
-    // }
-    const catList = await req.Model.find()
-      .setOptions(queryOptions)
-      // parent字段ref了catModel，所以在填充时 用catModel替换原来的ObjectId
-      // 填充 parent 字段 限定只返回name
-      // .populate('parent', { name: 1 })
-      .limit(10)
-    console.log()
-
-    res.send(catList)
-  })
+  )
 
   // router.get('/parents', async (req, res) => {
   //   const catList = await req.Model.find({ parent: { $exists: false } }).limit(
@@ -112,12 +123,22 @@ module.exports = app => {
     const { userName, password } = req.body
     // 根据用户名找用户
     const AdminUser = require('../../modules/AdminUser')
-    const user = await AdminUser.findOne({ userName })
+    // select('[-/+]str') '-'表示 排除这个字段，‘+’表示强制选择出这个字段
+    const user = await AdminUser.findOne({ userName }).select('+password')
     !user &&
       res.status(422).send({
         message: '用户不存在'
       })
-    // 校验密码
-    // 返回token
+    // 校验密码  compareSync()第一个参数是传过来的明文，第二个是数据库中的密文
+    const isValid = require('bcrypt').compareSync(password, user.password)
+    !isValid &&
+      res.status(422).send({
+        message: '密码错误'
+      })
+
+    //  安装 jsonwebtoken包  返回token
+    const jwt = require('jsonwebtoken')
+    const token = jwt.sign({ id: user._id }, app.get('secretKey'))
+    res.send({ token, user_name: user.userName })
   })
 }
