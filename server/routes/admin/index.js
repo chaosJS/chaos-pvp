@@ -1,5 +1,8 @@
 module.exports = app => {
   const express = require('express')
+  const assert = require('http-assert')
+  const jwt = require('jsonwebtoken')
+  const AdminUserModal = require('../../modules/AdminUser')
   const router = express.Router({
     // 导入父级参数到子级配置 所以在子路由里面可以获取到:resource参数
     mergeParams: true
@@ -23,12 +26,23 @@ module.exports = app => {
   // 分类列表
   router.get(
     '/',
+    // 添加鉴权的中间件
     async (req, res, next) => {
       // 后端获取的请求头都是小写对应
       const {
         headers: { authorization }
       } = req
-      console.log('Authorization::', authorization)
+      const authorizationStr = authorization || ''
+      const token = authorizationStr.split(' ')[1]
+      assert(token, 401, '请重新登录')
+      console.log('token::', token)
+      // jwt.verify() 校验token的方法，第一个参数是token，第二个参数是secretKey
+      const tokenData = jwt.verify(token, app.get('secretKey'))
+      console.log('tokenData::', tokenData) // { id: '5e6cda9403ee33d2c129eb35', iat: 1584537708 } id即为用户id
+      const { id } = tokenData
+      // 把用户的信息挂载到req上，后续的中间件都能通过获取到user的信息
+      req.user = await AdminUserModal.findById(id)
+      assert(req.user, 401, '请先登录')
       await next()
     },
     async (req, res) => {
@@ -122,23 +136,32 @@ module.exports = app => {
   app.post('/admin/api/login', async (req, res) => {
     const { userName, password } = req.body
     // 根据用户名找用户
-    const AdminUser = require('../../modules/AdminUser')
     // select('[-/+]str') '-'表示 排除这个字段，‘+’表示强制选择出这个字段
-    const user = await AdminUser.findOne({ userName }).select('+password')
-    !user &&
-      res.status(422).send({
-        message: '用户不存在'
-      })
+    const user = await AdminUserModal.findOne({ userName }).select('+password')
+    assert(user, 422, '用户不存在')
+    //assert(value,status,message)
+    // 如果 value 值为假，一个带有给定 status、 message 的HttpError 实例会被抛出。
+    // assert.ok()是assert方法的另一个名字，与assert方法完全一样。
+    // !user &&
+    //   res.status(422).send({
+    //     message: '用户不存在'
+    //   })
     // 校验密码  compareSync()第一个参数是传过来的明文，第二个是数据库中的密文
     const isValid = require('bcrypt').compareSync(password, user.password)
-    !isValid &&
-      res.status(422).send({
-        message: '密码错误'
-      })
+    assert(isValid, 422, '密码错误')
+    // !isValid &&
+    //   res.status(422).send({
+    //     message: '密码错误'
+    //   })
 
     //  安装 jsonwebtoken包  返回token
-    const jwt = require('jsonwebtoken')
     const token = jwt.sign({ id: user._id }, app.get('secretKey'))
     res.send({ token, user_name: user.userName })
+  })
+  // 最后进行错误处理
+  app.use(async (err, req, res, next) => {
+    res.status(err.statusCode || 500).send({
+      message: err.message + '!!!'
+    })
   })
 }

@@ -149,4 +149,11 @@ db.emp.find({}, { name: 1, _id: 0 }) // 只包含name, 不包含_id
 
 ### 用户登录接口实现中，axios 全局捕获错误 ,axios 中劫持 req 加头
 
-### todo: https://www.bilibili.com/video/av51931842?p=27 07:50 登录 `jwt` 校验进行中。。。
+1. 生成 token，返回给前端
+2. 前端把 token 放到 header 里面
+3. 后端获取到 header 里面的 token 用 secretKey 解密获取用户 id
+4. 从数据库中获取用户信息
+5. 把用户信息加到 req 中，以后的请求都会有用户的信息，达到鉴权的目的
+6. 用 http-assert 包 处理错误信息
+
+### todo: https://www.bilibili.com/video/av51931842?p=29 路由，请求接口校验完成

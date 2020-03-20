@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Vue from 'vue'
+import router from '../router'
 // 环境的切换
 // if (process.env.NODE_ENV == 'development') {
 //   axios.defaults.baseURL = 'http://localhost:3111/admin/api'
@@ -15,7 +16,7 @@ const http = axios.create({
 http.interceptors.request.use(
   config => {
     // 加token
-    config.headers.Authorization = 'Bearer ' + localStorage.token
+    config.headers['Authorization'] = 'Bearer ' + (localStorage.token || '')
     return config
   },
   err => {
@@ -27,6 +28,10 @@ http.interceptors.response.use(
     return res
   },
   err => {
+    if (err.response.status === 401) {
+      // 鉴权没通过
+      router.push('/login')
+    }
     Vue.prototype.$message({
       type: 'error',
       message: err.response.data.message
