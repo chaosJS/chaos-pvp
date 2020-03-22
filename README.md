@@ -156,4 +156,25 @@ db.emp.find({}, { name: 1, _id: 0 }) // 只包含name, 不包含_id
 5. 把用户信息加到 req 中，以后的请求都会有用户的信息，达到鉴权的目的
 6. 用 http-assert 包 处理错误信息
 
-### todo: https://www.bilibili.com/video/av51931842?p=29 路由，请求接口校验完成
+### 模块化后端鉴权中间件
+
+### 前端路由鉴权路由限制 router.beforeEach 路由守卫
+
+### 文件上传没有使用 axios,所以上传的接口需要特殊处理，
+
+1. 给 el-upload 组件上加 headers
+
+   ```
+   <el-upload class="avatar-uploader"
+   :action="`${$http.defaults.baseURL}/upload`"
+   :show-file-list="false"
+   :headers="{au:xxx}"
+   :on-success="handleUploadSuccess"
+   >
+    ...
+    </el-upload>
+   ```
+
+   但是最好写一个加 headers 的 mixin，在需要的时候加到组件里
+
+### Done 后端和管理后台完成

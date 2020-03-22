@@ -130,6 +130,7 @@
                   :action="`${$http.defaults.baseURL}/upload`"
                   :show-file-list="false"
                   :on-success="res => $set(item, 'icon', res.url)"
+                  :headers="genUploadHeaders()"
                 >
                   <img v-if="item.icon" :src="item.icon" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -174,11 +175,13 @@
 </template>
 
 <script>
+import uploadHeaderMixin from '@/minxins/upload-header'
 export default {
   components: {},
   props: {
     id: String
   },
+  mixins: [uploadHeaderMixin],
   created() {
     this.fetchCatAndItems()
     this.id && this.fetchHeroInfo(this.id)

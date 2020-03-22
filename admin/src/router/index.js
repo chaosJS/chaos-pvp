@@ -19,7 +19,10 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    meta: {
+      isPublic: true
+    }
   },
   {
     path: '/login',
@@ -28,7 +31,11 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Login.vue')
+      import(/* webpackChunkName: "about" */ '../views/Login.vue'),
+    meta: {
+      // 表示这个路由不要登录验证，所有人都可以访问
+      isPublic: true
+    }
   },
   {
     path: '/admin',
@@ -152,4 +159,16 @@ const router = new Router({
   routes
 })
 
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isPublic && !localStorage.token) {
+    // 不属于公开页面，而且没有用户token
+    Vue.prototype.$message({
+      type: 'error',
+      message: `无权访问，请先登录`
+    })
+    return next('/login')
+  }
+  next()
+})
 export default router

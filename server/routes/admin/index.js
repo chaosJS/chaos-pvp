@@ -3,6 +3,15 @@ module.exports = app => {
   const assert = require('http-assert')
   const jwt = require('jsonwebtoken')
   const AdminUserModal = require('../../modules/AdminUser')
+  // const authMiddleware = require('../../middleware/auth')()
+  const authMiddleware = require('../../middleware/auth')({
+    app,
+    jwt,
+    assert,
+    AdminUserModal
+  })
+  const resourceMiddleware = require('../../middleware/resource')()
+
   const router = express.Router({
     // 导入父级参数到子级配置 所以在子路由里面可以获取到:resource参数
     mergeParams: true
@@ -24,50 +33,28 @@ module.exports = app => {
     res.send(catDoc)
   })
   // 分类列表
-  router.get(
-    '/',
-    // 添加鉴权的中间件
-    async (req, res, next) => {
-      // 后端获取的请求头都是小写对应
-      const {
-        headers: { authorization }
-      } = req
-      const authorizationStr = authorization || ''
-      const token = authorizationStr.split(' ')[1]
-      assert(token, 401, '请重新登录')
-      console.log('token::', token)
-      // jwt.verify() 校验token的方法，第一个参数是token，第二个参数是secretKey
-      const tokenData = jwt.verify(token, app.get('secretKey'))
-      console.log('tokenData::', tokenData) // { id: '5e6cda9403ee33d2c129eb35', iat: 1584537708 } id即为用户id
-      const { id } = tokenData
-      // 把用户的信息挂载到req上，后续的中间件都能通过获取到user的信息
-      req.user = await AdminUserModal.findById(id)
-      assert(req.user, 401, '请先登录')
-      await next()
-    },
-    async (req, res) => {
-      let queryOptions = {}
-      if (req.Model.modelName === 'Category') {
-        // queryOptions.populate = 'parent'
+  router.get('/', async (req, res) => {
+    let queryOptions = {}
+    if (req.Model.modelName === 'Category') {
+      // queryOptions.populate = 'parent'
 
-        // 比较以下二者返回数据的不同⬇️⬇️
-        queryOptions.populate = { path: 'parent', select: 'name' }
-        // queryOptions.populate = { path: 'parent' }
-      }
-      // if (req.Model.modelName === 'Article') {
-      //   queryOptions.populate = { path: 'categories', select: 'name' }
-      // }
-      const catList = await req.Model.find()
-        .setOptions(queryOptions)
-        // parent字段ref了catModel，所以在填充时 用catModel替换原来的ObjectId
-        // 填充 parent 字段 限定只返回name
-        // .populate('parent', { name: 1 })
-        .limit(10)
-      console.log()
-
-      res.send(catList)
+      // 比较以下二者返回数据的不同⬇️⬇️
+      queryOptions.populate = { path: 'parent', select: 'name' }
+      // queryOptions.populate = { path: 'parent' }
     }
-  )
+    // if (req.Model.modelName === 'Article') {
+    //   queryOptions.populate = { path: 'categories', select: 'name' }
+    // }
+    const catList = await req.Model.find()
+      .setOptions(queryOptions)
+      // parent字段ref了catModel，所以在填充时 用catModel替换原来的ObjectId
+      // 填充 parent 字段 限定只返回name
+      // .populate('parent', { name: 1 })
+      .limit(10)
+    console.log()
+
+    res.send(catList)
+  })
 
   // router.get('/parents', async (req, res) => {
   //   const catList = await req.Model.find({ parent: { $exists: false } }).limit(
@@ -84,13 +71,9 @@ module.exports = app => {
   // 在此处进行通用改造，添加中间件
   app.use(
     '/admin/api/rest/:resource',
-    async (req, res, next) => {
-      // 专门处理类名大小写的中间件
-      const modelName = require('inflection').classify(req.params.resource)
-      req.Model = require(`../../modules/${modelName}`)
-      console.log('专门处理类名大小写的中间件，现在处理的是：', modelName)
-      next()
-    },
+    // 添加鉴权的中间件
+    authMiddleware,
+    resourceMiddleware,
     router
   )
 
@@ -99,11 +82,16 @@ module.exports = app => {
   const upload = multer({
     dest: __dirname + '/../../uploads'
   })
-  app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
-    const file = req.file
-    file.url = `http://localhost:5222/uploads/${file.filename}`
-    res.send(file)
-  })
+  app.post(
+    '/admin/api/upload',
+    authMiddleware,
+    upload.single('file'),
+    async (req, res) => {
+      const file = req.file
+      file.url = `http://localhost:5222/uploads/${file.filename}`
+      res.send(file)
+    }
+  )
   // 给本地写的测试接口
   // 新建维度
   app.post('/spec/creat', async (req, res) => {

@@ -29,6 +29,7 @@
                 :action="`${$http.defaults.baseURL}/upload`"
                 :show-file-list="false"
                 :on-success="res => $set(item, 'img', res.url)"
+                :headers="genUploadHeaders()"
               >
                 <img v-if="item.img" :src="item.img" class="avatar" />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -56,11 +57,13 @@
 </template>
 
 <script>
+import uploadHeaderMixin from '@/minxins/upload-header'
 export default {
   components: {},
   props: {
     id: String
   },
+  mixins: [uploadHeaderMixin],
   created() {
     this.id && this.fetchCatInfo(this.id)
   },
