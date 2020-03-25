@@ -1,0 +1,128 @@
+$colors: (
+  primary: #db9e3f,
+  dark: #222,
+  grey: #999
+);
+
+@each $colorKey, $colorValue in $colors {
+  .text-#{$colorKey} {
+    color: $colorValue;
+  }
+  .bg-#{$colorKey} {
+    background-color: $colorValue;
+  }
+}
+// text align
+@each $var in (left, center, right) {
+  .text-#{$var} {
+    text-align: $var;
+  }
+}
+
+// font-sizes
+$font-sizes: (
+  sm: 0.833333rem,
+  md: 1.166667rem,
+  lg: 1.333333rem
+);
+@each $sizeKey, $sizeValue in $font-sizes {
+  .fs-#{$sizeKey} {
+    font-size: $sizeValue;
+  }
+}
+
+// flex
+.d-flex {
+  display: flex;
+}
+// justify-content
+$flex-jc: (
+  start: flex-start,
+  end: flex-end,
+  center: center,
+  between: space-between,
+  around: space-around
+);
+@each $key, $value in $flex-jc {
+  .jc-#{$key} {
+    justify-content: $value;
+  }
+}
+// align-item
+$flex-ai: (
+  start: flex-start,
+  end: flex-end,
+  center: center,
+  stretch: stretch
+);
+@each $key, $value in $flex-ai {
+  .ai-#{$key} {
+    align-items: #{$value};
+  }
+}
+// flex-column
+.flex-column {
+  flex-direction: column;
+}
+// 父元素会有剩余空间时，子元素如何分配父元素的剩余空间
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+// margin padding
+$space-types: (
+  m: margin,
+  p: padding
+);
+$space-direction: (
+  t: top,
+  l: left,
+  b: bottom,
+  r: right
+);
+$space-base-size: 1rem;
+$space-sizes: (
+  0: 0,
+  1: 0.5,
+  2: 1,
+  3: 1.5,
+  4: 2,
+  5: 3
+);
+
+@each $typeKey, $typeValue in $space-types {
+  // .m-1 margin:1rem
+  @each $sizeKey, $sizeValue in $space-sizes {
+    .#{$typeKey}-#{$sizeKey} {
+      #{$typeValue}: $sizeValue * $space-base-size;
+    }
+  }
+  // .mx-1
+  // margin-left:1rem
+  // margin-right:1rem
+  @each $sizeKey, $sizeValue in $space-sizes {
+    .#{$typeKey}x-#{$sizeKey} {
+      #{$typeValue}-left: $sizeValue * $space-base-size;
+      #{$typeValue}-right: $sizeValue * $space-base-size;
+    }
+  }
+
+  // .my-1
+  // margin-left:1rem
+  // margin-right:1rem
+  @each $sizeKey, $sizeValue in $space-sizes {
+    .#{$typeKey}y-#{$sizeKey} {
+      #{$typeValue}-top: $sizeValue * $space-base-size;
+      #{$typeValue}-bottom: $sizeValue * $space-base-size;
+    }
+  }
+
+  // .mt-1  margin-top:1rem
+  @each $directionKey, $directionValue in $space-direction {
+    @each $sizeKey, $sizeValue in $space-sizes {
+      .#{$typeKey}#{$directionKey}-#{$sizeKey} {
+        #{$typeValue}-#{$directionValue}: $sizeValue * $space-base-size;
+      }
+    }
+  }
+}

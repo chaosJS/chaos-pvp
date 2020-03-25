@@ -40,4 +40,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 2. 设置 viewport
 3. css reset 动态设置 html 根元素 font-size
 
-### todo https://www.bilibili.com/video/BV1S4411W79F?p=2 前期准备工作
+### todo https://www.bilibili.com/video/BV1S4411W79F?p=6 重置全局样式，scss 变量
