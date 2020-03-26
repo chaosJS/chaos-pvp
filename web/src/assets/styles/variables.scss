@@ -1,7 +1,8 @@
 $colors: (
   primary: #db9e3f,
   dark: #222,
-  grey: #999
+  grey: #999,
+  'white': #fff
 );
 
 @each $colorKey, $colorValue in $colors {
@@ -124,5 +125,32 @@ $space-sizes: (
         #{$typeValue}-#{$directionValue}: $sizeValue * $space-base-size;
       }
     }
+  }
+}
+
+// button
+.button {
+  border: none;
+  border-radius: 0.333333rem;
+  // 从$font-sizes 这个map中get出sm的值
+  font-size: map-get($font-sizes, 'sm');
+  // webkit内核的一个字体平滑css属性 没啥用
+  -webkit-font-smoothing: antialiased;
+}
+// nav
+.nav {
+  .nav-item {
+    border-bottom: 3px solid transparent;
+    padding-bottom: 5px;
+    &.active {
+      border-bottom: 3px solid #fff;
+    }
+  }
+
+  a {
+    font-size: map-get($font-sizes, 'md');
+    text-decoration: none;
+    color: map-get($colors, 'white');
+    -webkit-font-smoothing: antialiased;
   }
 }
