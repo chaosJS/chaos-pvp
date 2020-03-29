@@ -1,2 +1,62 @@
 @import './reset.scss';
 @import './variables.scss';
+@each $colorKey, $colorValue in $colors {
+  .text-#{$colorKey} {
+    color: $colorValue;
+  }
+  .bg-#{$colorKey} {
+    background-color: $colorValue;
+  }
+}
+// text align
+@each $var in (left, center, right) {
+  .text-#{$var} {
+    text-align: $var;
+  }
+}
+@each $key, $value in $flex-jc {
+  .jc-#{$key} {
+    justify-content: $value;
+  }
+}
+@each $key, $value in $flex-ai {
+  .ai-#{$key} {
+    align-items: #{$value};
+  }
+}
+@each $typeKey, $typeValue in $space-types {
+  // .m-1 margin:1rem
+  @each $sizeKey, $sizeValue in $space-sizes {
+    .#{$typeKey}-#{$sizeKey} {
+      #{$typeValue}: $sizeValue * $space-base-size;
+    }
+  }
+  // .mx-1
+  // margin-left:1rem
+  // margin-right:1rem
+  @each $sizeKey, $sizeValue in $space-sizes {
+    .#{$typeKey}x-#{$sizeKey} {
+      #{$typeValue}-left: $sizeValue * $space-base-size;
+      #{$typeValue}-right: $sizeValue * $space-base-size;
+    }
+  }
+
+  // .my-1
+  // margin-left:1rem
+  // margin-right:1rem
+  @each $sizeKey, $sizeValue in $space-sizes {
+    .#{$typeKey}y-#{$sizeKey} {
+      #{$typeValue}-top: $sizeValue * $space-base-size;
+      #{$typeValue}-bottom: $sizeValue * $space-base-size;
+    }
+  }
+
+  // .mt-1  margin-top:1rem
+  @each $directionKey, $directionValue in $space-direction {
+    @each $sizeKey, $sizeValue in $space-sizes {
+      .#{$typeKey}#{$directionKey}-#{$sizeKey} {
+        #{$typeValue}-#{$directionValue}: $sizeValue * $space-base-size;
+      }
+    }
+  }
+}

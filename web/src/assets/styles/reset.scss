@@ -4,7 +4,9 @@
 */
 html,
 body,
-div,
+div {
+  box-sizing: border-box;
+}
 span,
 applet,
 object,
@@ -106,7 +108,7 @@ section {
 }
 html {
   font-size: 12px;
-  box-sizing: border-box;
+  touch-action: none;
 }
 body {
   margin: 0;

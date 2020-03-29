@@ -13,7 +13,7 @@
         <li class="nav-item  active">
           <router-link :to="'/'">首页</router-link>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
           <router-link :to="'/'">攻略中心</router-link>
         </li>
         <li class="nav-item">
