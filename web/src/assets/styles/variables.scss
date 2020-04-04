@@ -1,7 +1,7 @@
 $colors: (
   primary: #db9e3f,
   dark: #222,
-  grey: #999,
+  gray: #999,
   'white': #fff
 );
 // font-sizes
@@ -72,19 +72,28 @@ $space-sizes: (
 }
 // nav
 .nav {
+  display: flex;
   .nav-item {
     border-bottom: 3px solid transparent;
     padding-bottom: 5px;
     &.active {
-      border-bottom: 3px solid #fff;
+      color: map-get($colors, 'primary');
+      border-bottom-color: map-get($colors, 'primary');
     }
   }
-
   a {
     font-size: map-get($font-sizes, 'md');
     text-decoration: none;
     color: map-get($colors, 'white');
     -webkit-font-smoothing: antialiased;
+  }
+  &.nav-inverse {
+    .nav-item {
+      color: map-get($colors, 'white');
+      &.active {
+        border-bottom-color: map-get($colors, 'white');
+      }
+    }
   }
 }
 // images width 100%

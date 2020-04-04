@@ -41,4 +41,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 3. css reset 动态设置 html 根元素 font-size
 4. 作用域插槽的用法 /about
 
-### todo https://www.bilibili.com/video/BV1S4411W79F?p=11 轮播，iconfont 卡片组件
+### todo https://www.bilibili.com/video/BV1S4411W79F?p=11 轮播，iconfont 简单封装 Card 组件
