@@ -48,15 +48,15 @@ export default {
       }
     }
   },
-  watch: {
-    $route(to, from) {
-      // 对路由变化作出响应...
-      if (to.name === 'new-users') {
-        this.form.userName = ''
-        this.form.password = ''
-      }
-    }
-  },
+  // watch: {
+  //   $route(to, from) {
+  //     // 对路由变化作出响应...
+  //     if (to.name === 'new-users') {
+  //       this.form.userName = ''
+  //       this.form.password = ''
+  //     }
+  //   }
+  // },
   methods: {
     async fetchCatInfo(id) {
       const {

@@ -201,19 +201,19 @@ export default {
       items: []
     }
   },
-  watch: {
-    $route(to, from) {
-      // 对路由变化作出响应...
-      this.$refs['heroForm'].resetFields()
-      // this.reFresh = false
-      // this.$nextTick(() => {
-      //   this.reFresh = true
-      // })
-      // this.$forceUpdate()
-      // this.form = this.form
-      // this.form.icon = ''
-    }
-  },
+  // watch: {
+  //   $route(to, from) {
+  //     // 对路由变化作出响应...
+  //     this.$refs['heroForm'].resetFields()
+  //     // this.reFresh = false
+  //     // this.$nextTick(() => {
+  //     //   this.reFresh = true
+  //     // })
+  //     // this.$forceUpdate()
+  //     // this.form = this.form
+  //     // this.form.icon = ''
+  //   }
+  // },
   methods: {
     async fetchCatAndItems() {
       const res = await this.$http.get(`/rest/categories`)

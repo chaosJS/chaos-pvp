@@ -7,6 +7,9 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import Card from '@/components/Card.vue'
 Vue.component('x-card', Card)
+
+import ListCard from '@/components/ListCard.vue'
+Vue.component('list-card', ListCard)
 Vue.use(VueAwesomeSwiper)
 new Vue({
   router,

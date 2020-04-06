@@ -40,5 +40,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 2. 设置 viewport
 3. css reset 动态设置 html 根元素 font-size
 4. 作用域插槽的用法 /about
+5. 循环中抽象更高级的作用域插槽
 
-### todo https://www.bilibili.com/video/BV1S4411W79F?p=11 轮播，iconfont 简单封装 Card 组件
+### 更新 server 端 init 文章数据录入接口 在 server 目录的`web/index.js` 下
+
+### todo https://www.bilibili.com/video/BV1S4411W79F?p=13 数据录入接口

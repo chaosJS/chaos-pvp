@@ -11,10 +11,12 @@ app.use(
 )
 // 全局设定，并且ignore
 app.set('secretKey', 'hello-express')
+// 操作数据库 引入mongoose 的动作必须放到引入路由之前
+require('./plugins/db')(app)
 // 管理平台 api
 require('./routes/admin')(app)
-// 操作数据库
-require('./plugins/db')(app)
+// 给前端页面的api
+require('./routes/web')(app)
 // 托管静态文件
 app.use('/uploads', express.static(__dirname + '/uploads'))
 app.listen(5222, () => {

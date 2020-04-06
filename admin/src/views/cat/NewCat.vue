@@ -36,15 +36,15 @@ export default {
       options: []
     };
   },
-  watch: {
-    $route(to, from) {
-      // 对路由变化作出响应...
-      if (to.name === "new-cat") {
-        this.form.name = "";
-        this.form.parent = "";
-      }
-    }
-  },
+  // watch: {
+  //   $route(to, from) {
+  //     // 对路由变化作出响应...
+  //     if (to.name === "new-cat") {
+  //       this.form.name = "";
+  //       this.form.parent = "";
+  //     }
+  //   }
+  // },
   methods: {
     async fetchParentOptions() {
       // const { data } = await this.$http.get("/rest/categories/parents");

@@ -50,7 +50,7 @@ module.exports = app => {
       // parent字段ref了catModel，所以在填充时 用catModel替换原来的ObjectId
       // 填充 parent 字段 限定只返回name
       // .populate('parent', { name: 1 })
-      .limit(10)
+      .limit(100)
     console.log()
 
     res.send(catList)

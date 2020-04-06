@@ -65,12 +65,12 @@ export default {
       categories: []
     }
   },
-  watch: {
-    $route(to, from) {
-      // 对路由变化作出响应...
-      this.form.title = ''
-    }
-  },
+  // watch: {
+  //   $route(to, from) {
+  //     // 对路由变化作出响应...
+  //     this.form.title = ''
+  //   }
+  // },
   methods: {
     handleImageAdded(file, Editor, cursorLocation, resetUploader) {
       var formData = new FormData()

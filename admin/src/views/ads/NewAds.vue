@@ -75,14 +75,14 @@ export default {
       }
     }
   },
-  watch: {
-    $route(to, from) {
-      // 对路由变化作出响应...
-      if (to.name === 'new-ads') {
-        this.form.name = ''
-      }
-    }
-  },
+  // watch: {
+  //   $route(to, from) {
+  //     // 对路由变化作出响应...
+  //     if (to.name === 'new-ads') {
+  //       this.form.name = ''
+  //     }
+  //   }
+  // },
   methods: {
     async fetchCatInfo(id) {
       const res = await this.$http.get(`/rest/ads/${id}`)

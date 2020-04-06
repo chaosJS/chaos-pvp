@@ -4,4 +4,7 @@ module.exports = app => {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
+
+  // require-all 把一个文件夹下的所有文件一起require进来
+  require('require-all')(__dirname + '/../modules')
 }

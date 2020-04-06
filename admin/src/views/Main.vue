@@ -70,7 +70,8 @@
       </el-header>
 
       <el-main>
-        <router-view></router-view>
+        <!-- 不设置 router-view 的 key 属性  Vue 会复用相同组件 -->
+        <router-view :key="$route.fullPath"></router-view>
       </el-main>
     </el-container>
   </el-container>
