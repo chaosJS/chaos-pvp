@@ -50,5 +50,58 @@ module.exports = app => {
     res.send('ok')
   })
 
+  // 展示新闻列表
+  router.get('/news/list', async (req, res) => {
+    // 以分类为主体，关联分类相关的新闻列表
+    // 1. 先找出顶级分类
+    // const parentCat = await CategoryModel.findOne({
+    //   name: '新闻分类'
+    // })
+    //   .populate({ path: 'children', populate: { path: 'newsList' } })
+    //   .lean()
+    const parentCat = await CategoryModel.findOne({
+      name: '新闻分类'
+    })
+    const cats = await CategoryModel.aggregate([
+      { $match: { parent: parentCat._id } },
+      {
+        $lookup: {
+          from: 'articles',
+          localField: '_id',
+          foreignField: 'categories',
+          as: 'newsList'
+        }
+      },
+      {
+        $addFields: {
+          newsList: { $slice: ['$newsList', 5] }
+        }
+      }
+    ])
+    const subCats = cats.map(v => v._id)
+    cats.unshift({
+      name: '热门',
+      newsList: await ArticleModel.find()
+        .where({
+          categories: { $in: subCats }
+        })
+        .populate({
+          path: 'categories'
+        })
+        .limit(5)
+        .lean()
+    })
+    cats.map(item => {
+      item.newsList.map(news => {
+        news.categoryName =
+          item.name === '热门' ? news.categories[0].name : item.name
+        return news
+      })
+
+      return item
+    })
+    res.send(cats)
+  })
+
   app.use('/web/api', router)
 }

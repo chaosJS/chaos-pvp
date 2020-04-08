@@ -28,16 +28,15 @@
     <list-card icon="menu" :title="'新闻资讯'" :catsData="newsData">
       <!--父组件不需要子组件的布局，但是需要子组件的数据 -->
       <template #default="{  items:newsList }">
-        <!-- {{ newsList }} -->
-        <div
-          class="d-flex py-2"
-          v-for="(item, index) in newsList.list"
-          :key="index"
-        >
-          <span>【{{ item.catName }}】</span>
-          <span>|</span>
-          <span>{{ item.title }}</span>
-          <span>{{ item.date }}</span>
+        <div class="d-flex py-2" v-for="(item, index) in newsList" :key="index">
+          <span class="text-info text-center" style="width:40px;"
+            >[{{ item.categoryName }}]</span
+          >
+          <span class="">|</span>
+          <span class="text-ellipsis pr-2">{{ item.title }}</span>
+          <span class="text-gray" style="margin-left:auto;">{{
+            item.createdAt | formatDate
+          }}</span>
         </div>
       </template>
     </list-card>
@@ -46,6 +45,7 @@
 
 <script>
 // @ is an alias to /src
+import dayjs from 'dayjs'
 export default {
   name: 'Home',
   data() {
@@ -55,40 +55,28 @@ export default {
           el: '.swiper-pagination'
         }
       },
-      newsData: [
-        {
-          name: '热门',
-          list: new Array(5).fill({}).map((item, index) => ({
-            catName: '热门',
-            title: `王者大陆第一学院【楼下】档案${index}`,
-            date: '06/02'
-          }))
-        },
-        {
-          name: '新闻',
-          list: new Array(5).fill({}).map((item, index) => ({
-            catName: '新闻',
-            title: `王者大陆第一学院【楼下】档案${index}`,
-            date: '06/03'
-          }))
-        },
-        {
-          name: '公告',
-          list: new Array(5).fill({}).map((item, index) => ({
-            catName: '公告',
-            title: `王者大陆第一学院【楼下】档案${index}`,
-            date: '06/04'
-          }))
-        }
-      ]
+      newsData: []
     }
+  },
+  filters: {
+    formatDate(val) {
+      return dayjs(val).format('MM/DD')
+    }
+  },
+  created() {
+    this.fetchNewsCat()
   },
   computed: {
     swiper() {
       return this.$refs.mySwiper.$swiper
     }
   },
-  mounted() {}
+  methods: {
+    async fetchNewsCat() {
+      const res = await this.$http.get('/news/list')
+      this.newsData = res.data
+    }
+  }
 }
 </script>
 <style lang="scss">

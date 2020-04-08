@@ -44,4 +44,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 更新 server 端 init 文章数据录入接口 在 server 目录的`web/index.js` 下
 
-### todo https://www.bilibili.com/video/BV1S4411W79F?p=13 数据录入接口
+### 实现后端新闻列表接口，前端数据获取展示
+
+### todo https://www.bilibili.com/video/BV1S4411W79F?p=15 

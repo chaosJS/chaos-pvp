@@ -9,4 +9,17 @@ const schema = new mongoose.Schema({
     ref: 'Category'
   }
 })
+// virtual 可以用mongoose添加和设置虚拟属性，但是这虚拟属性的值不会保存到数据库中。
+schema.virtual('children', {
+  localField: '_id',
+  foreignField: 'parent',
+  justOne: false,
+  ref: 'Category'
+})
+schema.virtual('newsList', {
+  localField: '_id',
+  foreignField: 'categories',
+  justOne: false,
+  ref: 'Article'
+})
 module.exports = mongoose.model('Category', schema)
