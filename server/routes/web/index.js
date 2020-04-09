@@ -5,7 +5,7 @@ module.exports = app => {
   const ArticleModel = mongoose.model('Article')
   const CategoryModel = mongoose.model('Category')
 
-  // 新建一个临时的接口用来录入初始化数据
+  // 新建一个临时的接口用来录入初始化新闻数据
   router.get('/news/init', async (req, res) => {
     const newsCat = await CategoryModel.findOne({ name: '新闻分类' })
     // 不加 lean 查出来的是 Mongoose 文档，
@@ -49,6 +49,22 @@ module.exports = app => {
     await ArticleModel.insertMany(newsList)
     res.send('ok')
   })
+  // 新建一个临时的接口用来录入初始化英雄数据
+
+  // 浏览器直接爬数据的方法
+  $$('.hero-nav>li').map((item, i) => {
+    return {
+      name: item.innerText,
+      heros: $$('li', $$('.hero-list')[i]).map(el => {
+        return {
+          name: $$('h3', el)[0].innerText,
+
+          avatar: $$('img', el)[0].src
+        }
+      })
+    }
+  })
+  //
 
   // 展示新闻列表
   router.get('/news/list', async (req, res) => {
