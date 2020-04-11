@@ -4,7 +4,7 @@ module.exports = app => {
   const mongoose = require('mongoose')
   const ArticleModel = mongoose.model('Article')
   const CategoryModel = mongoose.model('Category')
-
+  const HeroModel = mongoose.model('Heros')
   // 新建一个临时的接口用来录入初始化新闻数据
   router.get('/news/init', async (req, res) => {
     const newsCat = await CategoryModel.findOne({ name: '新闻分类' })
@@ -52,18 +52,25 @@ module.exports = app => {
   // 新建一个临时的接口用来录入初始化英雄数据
 
   // 浏览器直接爬数据的方法
-  $$('.hero-nav>li').map((item, i) => {
-    return {
-      name: item.innerText,
-      heros: $$('li', $$('.hero-list')[i]).map(el => {
-        return {
-          name: $$('h3', el)[0].innerText,
-
-          avatar: $$('img', el)[0].src
-        }
-      })
-    }
+  router.get('/heros/init', async (req, res) => {
+    const rawData = require('../../mock/heros.js')
+    rawData.filter(item => {
+      return item.name !== '热门'
+    })
+    // TODO
   })
+  // $$('.hero-nav>li').map((item, i) => {
+  //   return {
+  //     name: item.innerText,
+  //     heros: $$('li', $$('.hero-list')[i]).map(el => {
+  //       return {
+  //         name: $$('h3', el)[0].innerText,
+
+  //         avatar: $$('img', el)[0].src
+  //       }
+  //     })
+  //   }
+  // })
   //
 
   // 展示新闻列表
