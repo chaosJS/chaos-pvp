@@ -46,4 +46,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 实现后端新闻列表接口，前端数据获取展示
 
-### todo https://www.bilibili.com/video/BV1S4411W79F?p=15 
+### 英雄列表 init 接口 完成
+
+### todo https://www.bilibili.com/video/BV1S4411W79F?p=17

@@ -35,4 +35,4 @@ const schema = new mongoose.Schema({
     }
   ]
 })
-module.exports = mongoose.model('Heros', schema)
+module.exports = mongoose.model('Heros', schema, 'heroes')

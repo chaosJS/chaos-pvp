@@ -53,11 +53,20 @@ module.exports = app => {
 
   // 浏览器直接爬数据的方法
   router.get('/heros/init', async (req, res) => {
+    await HeroModel.deleteMany()
     const rawData = require('../../mock/heros.js')
-    rawData.filter(item => {
-      return item.name !== '热门'
-    })
-    // TODO
+    for (let cat of rawData) {
+      if (cat.name === '热门') {
+        continue
+      }
+      const category = await CategoryModel.findOne({ name: cat.name })
+      cat.heros = cat.heros.map(hero => {
+        hero.categories = [category]
+        return hero
+      })
+      await HeroModel.insertMany(cat.heros)
+    }
+    res.send(await HeroModel.find())
   })
   // $$('.hero-nav>li').map((item, i) => {
   //   return {
