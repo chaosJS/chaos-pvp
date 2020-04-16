@@ -48,4 +48,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 英雄列表 init 接口 完成
 
-### todo https://www.bilibili.com/video/BV1S4411W79F?p=17
+### 英雄列表 前端界面完成
+
+### todo https://www.bilibili.com/video/BV1S4411W79F?p=18

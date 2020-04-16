@@ -27,8 +27,12 @@
     <!-- card -->
     <list-card icon="menu" :title="'新闻资讯'" :catsData="newsData">
       <!--父组件不需要子组件的布局，但是需要子组件的数据 -->
-      <template #default="{  items:newsList }">
-        <div class="d-flex py-2" v-for="(item, index) in newsList" :key="index">
+      <template #default="{  items:newsCat }">
+        <div
+          class="d-flex py-2"
+          v-for="(item, index) in newsCat.newsList"
+          :key="index"
+        >
           <span class="text-info text-center" style="width:40px;"
             >[{{ item.categoryName }}]</span
           >
@@ -37,6 +41,24 @@
           <span class="text-gray" style="margin-left:auto;">{{
             item.createdAt | formatDate
           }}</span>
+        </div>
+      </template>
+    </list-card>
+
+    <list-card icon="card-hero" :title="'英雄列表'" :catsData="heroList">
+      <!--父组件不需要子组件的布局，但是需要子组件的数据 -->
+      <!-- todo flex 布局最后一行左对齐的方案 -->
+      <template #default="{  items:heroCat }">
+        <div class="d-flex flex-wrap jc-between">
+          <div
+            class="py-2 text-center"
+            style="width:19%;"
+            v-for="(item, index) in heroCat.heroList"
+            :key="index"
+          >
+            <img :src="item.icon" alt="" width="100%" />
+            <p>{{ item.name }}</p>
+          </div>
         </div>
       </template>
     </list-card>
@@ -55,7 +77,8 @@ export default {
           el: '.swiper-pagination'
         }
       },
-      newsData: []
+      newsData: [],
+      heroList: []
     }
   },
   filters: {
@@ -65,6 +88,7 @@ export default {
   },
   created() {
     this.fetchNewsCat()
+    this.fetchHeroCat()
   },
   computed: {
     swiper() {
@@ -75,6 +99,10 @@ export default {
     async fetchNewsCat() {
       const res = await this.$http.get('/news/list')
       this.newsData = res.data
+    },
+    async fetchHeroCat() {
+      const res = await this.$http.get('/heros/list')
+      this.heroList = res.data
     }
   }
 }

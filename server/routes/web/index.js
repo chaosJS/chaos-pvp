@@ -50,7 +50,6 @@ module.exports = app => {
     res.send('ok')
   })
   // 新建一个临时的接口用来录入初始化英雄数据
-
   // 浏览器直接爬数据的方法
   router.get('/heros/init', async (req, res) => {
     await HeroModel.deleteMany()
@@ -132,6 +131,54 @@ module.exports = app => {
 
       return item
     })
+    res.send(cats)
+  })
+
+  router.get('/heros/list', async (req, res) => {
+    const parentCat = await CategoryModel.findOne({
+      name: '英雄分类'
+    })
+    const cats = await CategoryModel.aggregate([
+      { $match: { parent: parentCat._id } },
+      {
+        $lookup: {
+          from: 'heroes',
+          localField: '_id',
+          foreignField: 'categories',
+          as: 'heroList'
+        }
+      }
+      // {
+      //   // 添加字段
+      //   $addFields: {
+      //     heroList: { $slice: ['$heroList', 5] }
+      //   }
+      // }
+    ])
+    const subCats = cats.map(v => v._id)
+    cats.unshift({
+      name: '热门',
+      // 只要id name icon三个字段就好
+      heroList: await HeroModel.find({}, { _id: 1, name: 1, icon: 1 })
+        .where({
+          categories: { $in: subCats }
+        })
+        // .populate({
+        //   path: 'categories',
+        //   select: { name: 1, _id: 1, icon: 1 }
+        // })
+        .limit(10)
+        .lean()
+    })
+    // cats.map(item => {
+    //   item.heroList.map(news => {
+    //     news.categoryName =
+    //       item.name === '热门' ? news.categories[0].name : item.name
+    //     return news
+    //   })
+
+    //   return item
+    // })
     res.send(cats)
   })
 
