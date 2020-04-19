@@ -4,6 +4,7 @@ const schema = new mongoose.Schema({
   name: { type: String },
   icon: { type: String },
   title: { type: String },
+  banner: { stye: String },
   // 英雄的类型
   categories: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Category' }],
   // 英雄的评分

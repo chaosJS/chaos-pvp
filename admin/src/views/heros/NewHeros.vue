@@ -9,9 +9,8 @@
       label-position="right"
       label-width="80px"
     >
-      {{ form }}
-
-      <el-tabs value="skills" type="border-card">
+      <!-- {{ form }} -->
+      <el-tabs value="basic" type="border-card">
         <el-tab-pane label="基本信息" name="basic">
           <el-form-item label="英雄名称">
             <el-input
@@ -24,10 +23,24 @@
             <el-upload
               class="avatar-uploader"
               :action="`${$http.defaults.baseURL}/upload`"
+              :headers="genUploadHeaders()"
               :show-file-list="false"
               :on-success="handleUploadSuccess"
             >
               <img v-if="form.icon" :src="form.icon" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+
+          <el-form-item label="英雄banner">
+            <el-upload
+              class="avatar-uploader"
+              :action="`${$http.defaults.baseURL}/upload`"
+              :show-file-list="false"
+              :on-success="res => (form.banner = res.url)"
+              :headers="genUploadHeaders()"
+            >
+              <img v-if="form.banner" :src="form.banner" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -163,6 +176,53 @@
             </el-col>
           </el-row>
         </el-tab-pane>
+
+        <el-tab-pane label="搭档" name="partners">
+          <el-button type="primary" @click="form.partners.push({})">{{
+            '添加搭档'
+          }}</el-button>
+          <el-row type="flex" style="flex-wrap:wrap">
+            <el-col
+              :md="12"
+              v-for="(item, index) in form.partners"
+              :key="index"
+            >
+              <el-form-item label="搭档名称">
+                <el-select
+                  filterable
+                  clearable
+                  v-model="item.hero"
+                  placeholder="请选择搭档名称"
+                >
+                  <el-option
+                    v-for="item in allHeros"
+                    :key="item._id"
+                    :label="item.name"
+                    :value="item._id"
+                  ></el-option>
+                </el-select>
+                <!-- <el-input v-model="item.name" placeholder="搭档名称"></el-input> -->
+              </el-form-item>
+              <el-form-item label="搭档描述">
+                <el-input
+                  v-model="item.desc"
+                  type="textarea"
+                  :autosize="{ minRows: 3 }"
+                  style="width:600px;"
+                  placeholder="搭档描述"
+                ></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="danger"
+                  round
+                  @click="form.partners.splice(index, 1)"
+                  >{{ '删除搭档' }}</el-button
+                >
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
       </el-tabs>
 
       <el-form-item style="margin-top:20px;">
@@ -183,7 +243,7 @@ export default {
   },
   mixins: [uploadHeaderMixin],
   created() {
-    this.fetchCatAndItems()
+    this.fetchCatAndItemsAndHeros()
     this.id && this.fetchHeroInfo(this.id)
   },
   data() {
@@ -193,41 +253,31 @@ export default {
         name: '',
         icon: '',
         title: '',
+        banner: '',
         categories: [],
         scores: {},
-        skills: []
+        skills: [],
+        partners: []
       },
       categories: [],
-      items: []
+      items: [],
+      allHeros: []
     }
   },
-  // watch: {
-  //   $route(to, from) {
-  //     // 对路由变化作出响应...
-  //     this.$refs['heroForm'].resetFields()
-  //     // this.reFresh = false
-  //     // this.$nextTick(() => {
-  //     //   this.reFresh = true
-  //     // })
-  //     // this.$forceUpdate()
-  //     // this.form = this.form
-  //     // this.form.icon = ''
-  //   }
-  // },
   methods: {
-    async fetchCatAndItems() {
+    async fetchCatAndItemsAndHeros() {
       const res = await this.$http.get(`/rest/categories`)
       const itemsRes = await this.$http.get(`/rest/items`)
-
+      const heroRes = await this.$http.get(`/rest/hero`)
       this.categories = res.data
       this.items = itemsRes.data
+      this.allHeros = heroRes.data
     },
     async fetchHeroInfo(id) {
       const res = await this.$http.get(`/rest/heros/${id}`)
       this.form = Object.assign({}, this.form, res.data)
     },
     handleUploadSuccess(res) {
-      console.log('uploadImgRes::', res)
       this.form.icon = res.url
     },
 

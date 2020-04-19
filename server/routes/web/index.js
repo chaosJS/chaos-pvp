@@ -182,5 +182,27 @@ module.exports = app => {
     res.send(cats)
   })
 
+  // 文章详情
+  router.get('/article/:id', async (req, res) => {
+    const data = await ArticleModel.findById(req.params.id).lean()
+    // 查找相关类目的文章
+
+    data.related = await ArticleModel.find()
+      .where(
+        { title: { $ne: data.title } },
+        { categories: { $in: data.categories } }
+      )
+      .limit(2)
+    res.send(data)
+  })
+
+  // 英雄详情
+  router.get('/hero/:id', async (req, res) => {
+    const data = await HeroModel.findById(req.params.id)
+      .populate({ path: 'categories', select: { name: 1 } })
+      .lean()
+    res.send(data)
+  })
+
   app.use('/web/api', router)
 }

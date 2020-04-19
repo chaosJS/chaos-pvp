@@ -50,4 +50,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 英雄列表 前端界面完成
 
-### todo https://www.bilibili.com/video/BV1S4411W79F?p=18
+### 前端页面完成
+
+### todo https://www.bilibili.com/video/BV18t411L7Lg?p=1 开始生产部署到服务器

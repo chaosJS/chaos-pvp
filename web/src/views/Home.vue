@@ -28,7 +28,9 @@
     <list-card icon="menu" :title="'新闻资讯'" :catsData="newsData">
       <!--父组件不需要子组件的布局，但是需要子组件的数据 -->
       <template #default="{  items:newsCat }">
-        <div
+        <router-link
+          tag="div"
+          :to="`/article/${item._id}`"
           class="d-flex py-2"
           v-for="(item, index) in newsCat.newsList"
           :key="index"
@@ -41,7 +43,7 @@
           <span class="text-gray" style="margin-left:auto;">{{
             item.createdAt | formatDate
           }}</span>
-        </div>
+        </router-link>
       </template>
     </list-card>
 
@@ -50,15 +52,17 @@
       <!-- todo flex 布局最后一行左对齐的方案 -->
       <template #default="{  items:heroCat }">
         <div class="d-flex flex-wrap jc-between">
-          <div
+          <router-link
+            tag="div"
             class="py-2 text-center"
             style="width:19%;"
             v-for="(item, index) in heroCat.heroList"
+            :to="`/hero/${item._id}`"
             :key="index"
           >
             <img :src="item.icon" alt="" width="100%" />
             <p>{{ item.name }}</p>
-          </div>
+          </router-link>
         </div>
       </template>
     </list-card>
