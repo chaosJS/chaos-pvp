@@ -52,4 +52,12 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 前端页面完成
 
+### 生产环境编译
+
+1. 编译 web 和 admin 到 server 的目录下
+   1. 动态替换开发生产环境的 baseURL
+   2. 根目录添加环境变量标示文件(.env.development/test/production)
+2. server 目录 添加静态托管
+   1. 添加 vue.config.js 自定义 build 之后静态资源的路径，并且输出到 server 文件夹的同名目录下
+
 ### todo https://www.bilibili.com/video/BV18t411L7Lg?p=1 开始生产部署到服务器

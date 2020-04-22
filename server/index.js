@@ -19,6 +19,10 @@ require('./routes/admin')(app)
 require('./routes/web')(app)
 // 托管静态文件
 app.use('/uploads', express.static(__dirname + '/uploads'))
+// 托管 admin和web编译后的静态文件
+app.use('/admin', express.static(__dirname + '/admin'))
+app.use('/', express.static(__dirname + '/web'))
+
 app.listen(5222, () => {
   console.log('app run on port 5222: ', 'http://localhost:5222')
 })

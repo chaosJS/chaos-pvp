@@ -9,7 +9,8 @@ import Vue from 'vue'
 //   axios.defaults.baseURL = 'http://localhost:3111/admin/api'
 // }
 const http = axios.create({
-  baseURL: 'http://localhost:5222/web/api',
+  // baseURL: 'http://localhost:5222/web/api',
+  baseURL: process.env.VUE_APP_API_URL || '/web/api',
   timeout: 10000
 })
 http.interceptors.request.use(

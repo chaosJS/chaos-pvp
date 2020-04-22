@@ -10,7 +10,8 @@ import router from '../router'
 //   axios.defaults.baseURL = 'http://localhost:3111/admin/api'
 // }
 const http = axios.create({
-  baseURL: 'http://localhost:5222/admin/api',
+  baseURL: process.env.VUE_APP_API_URL || '/admin/api',
+  // baseURL: 'http://localhost:5222/admin/api',
   timeout: 10000
 })
 http.interceptors.request.use(
