@@ -60,4 +60,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 2. server 目录 添加静态托管
    1. 添加 vue.config.js 自定义 build 之后静态资源的路径，并且输出到 server 文件夹的同名目录下
 
-### todo https://www.bilibili.com/video/BV18t411L7Lg?p=1 开始生产部署到服务器
+### 域名和服务器购买
+
+1. 域名 chaos-js.cn
+2. 阿里云服务器，ubantu 系统
+3. 域名解析：把特定的域名解析到服务器的公网 ip
+4. 服务器上安装nginx todo
+
+### todo https://www.bilibili.com/video/BV18t411L7Lg?p=4 开始生产部署到服务器
