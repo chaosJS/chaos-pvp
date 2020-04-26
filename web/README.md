@@ -65,6 +65,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 1. 域名 chaos-js.cn
 2. 阿里云服务器，ubantu 系统
 3. 域名解析：把特定的域名解析到服务器的公网 ip
-4. 服务器上安装nginx todo
-
-### todo https://www.bilibili.com/video/BV18t411L7Lg?p=4 开始生产部署到服务器
+4. 服务器上安装 nginx
+   1. apt show nginx
+   2. apt update
+   3. apt install nginx -y
+   4. 需要在阿里云安全组中开启http80 端口，刷新
+ 
+### todo https://www.bilibili.com/video/BV18t411L7Lg?p=5 开始安装mongodb
