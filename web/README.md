@@ -96,5 +96,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
          2. 在 server/下 `pm2 start index.js --[name]`
          3. 测试：curl http:localhost:5222 (server 开的端口是 5222)
    8. 反向代理 nginx，把 5222 端口绑定到公网上
+      1. vscode 安装 remote-ssh 插件方便管理远程配置文件
+      2. 找到 nginx 的配置文件/etc/nginx 下的配置
+      3. 在 nginxconfig.io 中根据情况生成配置文件
+      4. 放到远程文件夹合适的位置
+      5. serive nginx reload 重启 nginx
+      6. 打开地址
 
-### todo https://www.bilibili.com/video/BV18t411L7Lg?p=9
+### todo https://www.bilibili.com/video/BV18t411L7Lg?p=10 迁移数据库
