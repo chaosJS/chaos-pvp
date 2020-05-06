@@ -81,6 +81,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
    2. ssh-keygen
    3. 复制 .ssh/id_rsa.pub 中的 ssh-ssh-rsa 到项目仓库的 key 管理中(github)，不要放到 settings/keys
 7. 安装 node npm
+
    1. apt install -y nodejs 默认的 ubantu 包版本太低
    2. apt install -y npm
    3. 配置淘宝镜像 npm config set registry https://registry.npm.taobao.org
@@ -96,11 +97,17 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
          2. 在 server/下 `pm2 start index.js --[name]`
          3. 测试：curl http:localhost:5222 (server 开的端口是 5222)
    8. 反向代理 nginx，把 5222 端口绑定到公网上
+
       1. vscode 安装 remote-ssh 插件方便管理远程配置文件
       2. 找到 nginx 的配置文件/etc/nginx 下的配置
       3. 在 nginxconfig.io 中根据情况生成配置文件
       4. 放到远程文件夹合适的位置
       5. serive nginx reload 重启 nginx
       6. 打开地址
+
+   9. 迁移本地数据库到线上
+      1. mongodump -d node-vue-moba
+      2. 把生成的 dump 复制到服务器上
+      3. 在服务器上执行 mongorestore 恢复数据
 
 ### todo https://www.bilibili.com/video/BV18t411L7Lg?p=10 迁移数据库
